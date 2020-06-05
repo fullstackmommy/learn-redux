@@ -1,17 +1,16 @@
-import reducer from "./freezer";
-import { updateTemperature, addProductToFreezer } from "../actions/freezer";
-import * as FLAVORS from "../constants/flavors";
+import { reducer, actions } from "../../freezer";
+import * as FLAVORS from "../../../constants/flavors";
 
 describe("Freezer reducer", () => {
   it("should store the temperature in the state", () => {
-    const newState = reducer(undefined, updateTemperature(-5));
+    const newState = reducer(undefined, actions.updateTemperature(-5));
     expect(newState.temperature).toEqual(-5);
   });
 
   it("should store the product in the state", () => {
     const newState = reducer(
       undefined,
-      addProductToFreezer(FLAVORS.VANILLA, 5)
+      actions.addProductToFreezer(FLAVORS.VANILLA, 5)
     );
     expect(newState.flavors[FLAVORS.VANILLA]).toEqual(5);
   });
@@ -25,7 +24,7 @@ describe("Freezer reducer", () => {
 
     const newState = reducer(
       oldState,
-      addProductToFreezer(FLAVORS.CHOCOLATE, 5)
+      actions.addProductToFreezer(FLAVORS.CHOCOLATE, 5)
     );
     expect(newState.flavors[FLAVORS.CHOCOLATE]).toEqual(12);
   });
@@ -39,7 +38,7 @@ describe("Freezer reducer", () => {
 
     const newState = reducer(
       oldState,
-      addProductToFreezer(FLAVORS.CHOCOLATE, 5)
+      actions.addProductToFreezer(FLAVORS.CHOCOLATE, 5)
     );
     expect(newState.flavors[FLAVORS.CHOCOLATE]).toEqual(60);
   });

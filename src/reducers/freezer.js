@@ -1,7 +1,12 @@
-import { UPDATE_TEMPERATURE } from "../constants/freezer";
+import {
+  UPDATE_TEMPERATURE,
+  ADD_PRODUCT_TO_FREEZER,
+  MAX_CAPACITY
+} from "../constants/freezer";
 
 const DEFAULT_STATE = {
-  temperature: null
+  temperature: null,
+  flavors: {}
 };
 
 export default function freezerReducer(state = DEFAULT_STATE, action) {
@@ -11,7 +16,16 @@ export default function freezerReducer(state = DEFAULT_STATE, action) {
         ...state,
         temperature: action.payload
       };
-
+    case ADD_PRODUCT_TO_FREEZER:
+      const amount =
+        (state.flavors[action.payload.name] || 0) + action.payload.amount;
+      return {
+        ...state,
+        flavors: {
+          ...state.flavors,
+          [action.payload.name]: Math.min(amount, MAX_CAPACITY)
+        }
+      };
     default:
       break;
   }

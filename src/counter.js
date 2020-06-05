@@ -1,3 +1,5 @@
+import { createStore } from "redux";
+
 export const increaseCount = (amount = 1) => {
   return {
     type: "INCREASE_COUNT",
@@ -20,3 +22,5 @@ export const reducer = (state = DEFAULT_STATE, action = {}) => {
       return { ...state };
   }
 };
+
+export const store = createStore(reducer);

@@ -21,4 +21,27 @@ describe("Orders reducer", () => {
     expect(typeof newState[0].createdAt).toEqual("number");
     expect(newState[0].status).toEqual("pending");
   });
+
+  it("should change the selected order status to fulfilled", () => {
+    const oldState = [{ customerName: "John", status: "pending" }];
+
+    const newState = reducer(oldState, actions.fulfillOrder(0));
+
+    expect(newState[0].status).toEqual("fulfilled");
+  });
+
+  it("should change the selected order status to paid", () => {
+    const oldState = [{ customerName: "John", status: "pending" }];
+
+    const newState = reducer(oldState, actions.payForOrder(0));
+
+    expect(newState[0].status).toEqual("paid");
+  });
+
+  it("should cremove an order from the store", () => {
+    const oldState = [{ customerName: "John", status: "pending" }];
+
+    const newState = reducer(oldState, actions.cancelOrder(0));
+    expect(newState).toEqual([]);
+  });
 });

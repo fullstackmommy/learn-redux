@@ -33,3 +33,31 @@ describe("addProductToFreezer()", () => {
     expect(action.payload.amount).toEqual(20);
   });
 });
+
+describe("doSomething()", () => {
+  const getState = () => ({
+    freezer: {
+      temperature: 10
+    }
+  });
+
+  it("should dispatch foo function", () => {
+    const dispatch = jest.fn();
+
+    const action = actions.doSomething();
+    action(dispatch, getState);
+
+    expect(dispatch.mock.calls.length).toEqual(1);
+    expect(dispatch.mock.calls[0][0].type).toEqual("FOO");
+  });
+
+  it("should use the temperature in the state for the payload", () => {
+    const dispatch = jest.fn();
+
+    const action = actions.doSomething();
+    action(dispatch, getState);
+
+    expect(dispatch.mock.calls.length).toEqual(1);
+    expect(dispatch.mock.calls[0][0].payload).toEqual(10);
+  });
+});

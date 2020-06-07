@@ -44,5 +44,14 @@ export const actions = {
       type: types.ADD_PRODUCT_TO_FREEZER,
       payload: { name, amount }
     };
+  },
+
+  doSomething() {
+    return function(dispatch, getState) {
+      dispatch({
+        type: "FOO",
+        payload: getState().freezer.temperature
+      });
+    };
   }
 };

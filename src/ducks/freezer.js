@@ -1,12 +1,17 @@
+import * as FLAVORS from "../constants/flavors";
+
 export const types = {
-  UPDATE_TEMPERATURE: 'UPDATE_TEMPERATURE',
-  ADD_PRODUCT_TO_FREEZER: 'ADD_PRODUCT_TO_FREEZER'
-}
+  UPDATE_TEMPERATURE: "UPDATE_TEMPERATURE",
+  ADD_PRODUCT_TO_FREEZER: "ADD_PRODUCT_TO_FREEZER"
+};
 
 const DEFAULT_STATE = {
   temperature: null,
-  flavors: {}
-}
+  flavors: {
+    [FLAVORS.STRAWBERRY]: 10,
+    [FLAVORS.SALTED_CARAMEL]: 20
+  }
+};
 
 export function reducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
@@ -14,16 +19,17 @@ export function reducer(state = DEFAULT_STATE, action) {
       return {
         ...state,
         temperature: action.payload
-      }
+      };
     case types.ADD_PRODUCT_TO_FREEZER:
-      const amount = (state.flavors[action.payload.name] || 0) + action.payload.amount
+      const amount =
+        (state.flavors[action.payload.name] || 0) + action.payload.amount;
       return {
         ...state,
         flavors: {
           ...state.flavors,
           [action.payload.name]: Math.min(amount, 60)
         }
-      }
+      };
     default:
       return state;
   }
@@ -34,7 +40,7 @@ export const actions = {
     return {
       type: types.UPDATE_TEMPERATURE,
       payload: temperature
-    }
+    };
   },
   addProductToFreezer(name, amount = 20) {
     return {
@@ -43,14 +49,14 @@ export const actions = {
         name,
         amount
       }
-    }
+    };
   },
   doSomething() {
     return function(dispatch, getState) {
       dispatch({
-        type: 'BUZZ',
+        type: "BUZZ",
         payload: getState().freezer.temperature
-      })
-    }
+      });
+    };
   }
-}
+};

@@ -50,12 +50,17 @@ class Freezer extends Component {
     }
   };
 
+  handleClickFlavor = flavorName => {
+    store.dispatch(actions.removeScoop(flavorName));
+  };
+
   render() {
     console.log(this.state.flavors);
     const flavors = Object.keys(this.state.flavors).map(flavorName => (
       <FreezerFlavor
         key={flavorName}
         onClickRestock={() => this.handleClickRestock(flavorName)}
+        onClickFlavor={() => this.handleClickFlavor(flavorName)}
         flavorName={flavorName}
         scoops={this.state.flavors[flavorName]}
       />

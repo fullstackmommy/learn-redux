@@ -2,7 +2,8 @@ import * as FLAVORS from "../constants/flavors";
 
 export const types = {
   UPDATE_TEMPERATURE: "UPDATE_TEMPERATURE",
-  ADD_PRODUCT_TO_FREEZER: "ADD_PRODUCT_TO_FREEZER"
+  ADD_PRODUCT_TO_FREEZER: "ADD_PRODUCT_TO_FREEZER",
+  REMOVE_SCOOPS: "REMOVE_SCOOPS"
 };
 
 const DEFAULT_STATE = {
@@ -20,7 +21,7 @@ export function reducer(state = DEFAULT_STATE, action) {
         ...state,
         temperature: action.payload
       };
-    case types.ADD_PRODUCT_TO_FREEZER:
+    case types.ADD_PRODUCT_TO_FREEZER: {
       const amount =
         (state.flavors[action.payload.name] || 0) + action.payload.amount;
       return {
@@ -30,6 +31,17 @@ export function reducer(state = DEFAULT_STATE, action) {
           [action.payload.name]: Math.min(amount, 60)
         }
       };
+    }
+    case types.REMOVE_SCOOPS: {
+      const amount = (state.flavors[action.payload] || 0) - 1;
+      return {
+        ...state,
+        flavors: {
+          ...state.flavors,
+          [action.payload]: Math.max(amount, 0)
+        }
+      };
+    }
     default:
       return state;
   }
@@ -51,12 +63,10 @@ export const actions = {
       }
     };
   },
-  doSomething() {
-    return function(dispatch, getState) {
-      dispatch({
-        type: "BUZZ",
-        payload: getState().freezer.temperature
-      });
+  removeScoop(name) {
+    return {
+      type: types.REMOVE_SCOOPS,
+      payload: name
     };
   }
 };

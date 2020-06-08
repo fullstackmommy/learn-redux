@@ -1,16 +1,60 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Panel from '../Panel/Panel';
-import { Column, Row } from '../Grid/Grid';
-import ButtonGroup from '../Button/ButtonGroup';
-import Button from '../Button/Button';
+import Panel from "../Panel/Panel";
+import { Column, Row } from "../Grid/Grid";
+import ButtonGroup from "../Button/ButtonGroup";
+import Button from "../Button/Button";
+import * as FLAVORS from "../../constants/flavors";
 
-import './NewOrder.css';
+import "./NewOrder.css";
+
+const DEFAULT_STATE = {
+  customerName: "",
+  scoops: {},
+  cone: false
+};
 
 class NewOrder extends Component {
-  handleFormSubmit(e) {
+  state = {
+    ...DEFAULT_STATE
+  };
+
+  handleFormSubmit = e => {
     e.preventDefault();
-  }
+    this.props.placeOrder(this.state);
+    this.setState({ DEFAULT_STATE });
+  };
+
+  handleDecreaseFlavor = flavorName => {
+    if (!this.state.scoops[flavorName]) {
+      return;
+    }
+
+    if (this.state.scoops[flavorName] === 1) {
+      const updatedScoops = {
+        ...this.state.scoops
+      };
+
+      delete updatedScoops[flavorName];
+
+      this.setState({ scoops: updatedScoops });
+    } else {
+      this.setState({
+        scoops: {
+          ...this.state.scoops,
+          [flavorName]: this.state.scoops[flavorName] - 1
+        }
+      });
+    }
+  };
+
+  handleIncreaseFlavor = flavorName =>
+    this.setState({
+      scoops: {
+        ...this.state.scoops,
+        [flavorName]: (this.state.scoops[flavorName] || 0) + 1
+      }
+    });
 
   render() {
     return (
@@ -19,7 +63,12 @@ class NewOrder extends Component {
           <Row>
             <Column>
               <label htmlFor="customer-name">Customer name</label>
-              <input type="text" id="customer-name" name="name" defaultValue="John Doe" />
+              <input
+                type="text"
+                id="customer-name"
+                name="name"
+                defaultValue="John Doe"
+              />
             </Column>
             <Column>
               <label>Container</label>
@@ -33,31 +82,46 @@ class NewOrder extends Component {
           <label>Scoops</label>
           <table className="new-order-scoops-table">
             <colgroup>
-              <col width="80%"/>
-              <col width="20%"/>
+              <col width="80%" />
+              <col width="20%" />
             </colgroup>
             <tbody>
-            <tr>
-              <td>
-                <strong>Vanilla</strong>
-              </td>
-              <td>
-                <ButtonGroup>
-                  <Button size="small" label="-" priority="primary" />
-                  <Button size="small" label={5} priority="secondary" />
-                  <Button size="small" label="+" priority="primary" />
-                </ButtonGroup>
-              </td>
-            </tr>
+              {Object.keys(FLAVORS).map(flavor => (
+                <tr key={flavor}>
+                  <td>
+                    <strong>{flavor}</strong>
+                  </td>
+                  <td>
+                    <ButtonGroup>
+                      <Button
+                        size="small"
+                        label="-"
+                        priority="primary"
+                        onClick={() => this.handleDecreaseFlavor(flavor)}
+                      />
+                      <Button
+                        size="small"
+                        label={this.state.scoops[flavor] || 0}
+                        priority="secondary"
+                      />
+                      <Button
+                        size="small"
+                        label="+"
+                        priority="primary"
+                        onClick={() => this.handleIncreaseFlavor(flavor)}
+                      />
+                    </ButtonGroup>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
-          <Button className="new-order-submit-button" label="Add order"/>
+          <Button className="new-order-submit-button" label="Add order" />
         </form>
       </Panel>
     );
   }
-};
+}
 
 export default NewOrder;
-

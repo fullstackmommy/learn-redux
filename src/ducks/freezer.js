@@ -1,13 +1,12 @@
 export const types = {
-  UPDATE_TEMPERATURE: "UPDATE_TEMPERATURE",
-  ADD_PRODUCT_TO_FREEZER: "ADD_PRODUCT_TO_FREEZER",
-  MAX_CAPACITY: 60
-};
+  UPDATE_TEMPERATURE: 'UPDATE_TEMPERATURE',
+  ADD_PRODUCT_TO_FREEZER: 'ADD_PRODUCT_TO_FREEZER'
+}
 
 const DEFAULT_STATE = {
   temperature: null,
   flavors: {}
-};
+}
 
 export function reducer(state = DEFAULT_STATE, action) {
   switch (action.type) {
@@ -15,17 +14,16 @@ export function reducer(state = DEFAULT_STATE, action) {
       return {
         ...state,
         temperature: action.payload
-      };
+      }
     case types.ADD_PRODUCT_TO_FREEZER:
-      const amount =
-        (state.flavors[action.payload.name] || 0) + action.payload.amount;
+      const amount = (state.flavors[action.payload.name] || 0) + action.payload.amount
       return {
         ...state,
         flavors: {
           ...state.flavors,
-          [action.payload.name]: Math.min(amount, types.MAX_CAPACITY)
+          [action.payload.name]: Math.min(amount, 60)
         }
-      };
+      }
     default:
       return state;
   }
@@ -36,22 +34,23 @@ export const actions = {
     return {
       type: types.UPDATE_TEMPERATURE,
       payload: temperature
-    };
+    }
   },
-
   addProductToFreezer(name, amount = 20) {
     return {
       type: types.ADD_PRODUCT_TO_FREEZER,
-      payload: { name, amount }
-    };
+      payload: {
+        name,
+        amount
+      }
+    }
   },
-
   doSomething() {
     return function(dispatch, getState) {
       dispatch({
-        type: "FOO",
+        type: 'BUZZ',
         payload: getState().freezer.temperature
-      });
-    };
+      })
+    }
   }
-};
+}

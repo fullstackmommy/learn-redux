@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import FreezerContainer from "../Freezer/FreezerContainer";
 import NewOrderContainer from "../NewOrder/NewOrderContainer";
 import { Column, Row } from "../Grid/Grid";
-import OrderOverview from "../OrderOverview/OrderOverview";
-import Colleagues from "../Colleagues/Colleagues";
+import OrderOverviewContainer from "../OrderOverview/OrderOverviewContainer";
+import ColleaguesContainer from "../Colleagues/ColleaguesContainer";
 
 import "./App.css";
 
@@ -23,10 +23,10 @@ class App extends Component {
         </Row>
         <Row>
           <Column size={3}>
-            <OrderOverview />
+            <OrderOverviewContainer />
           </Column>
           <Column size={1}>
-            <Colleagues />
+            <ColleaguesContainer />
           </Column>
         </Row>
       </main>

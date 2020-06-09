@@ -21,6 +21,7 @@ class NewOrder extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
+    console.log("Order ", this.state);
     this.props.placeOrder(this.state);
     this.setState({ DEFAULT_STATE });
   };
@@ -67,14 +68,23 @@ class NewOrder extends Component {
                 type="text"
                 id="customer-name"
                 name="name"
-                defaultValue="John Doe"
+                value={this.state.customerName}
+                onChange={e => this.setState({ customerName: e.target.value })}
               />
             </Column>
             <Column>
               <label>Container</label>
               <ButtonGroup>
-                <Button label="Cup" priority="primary" />
-                <Button label="Cone" priority="secondary" />
+                <Button
+                  label="Cup"
+                  priority={!this.state.cone ? "primary" : "secondary"}
+                  onClick={() => this.setState({ cone: false })}
+                />
+                <Button
+                  label="Cone"
+                  priority={this.state.cone ? "primary" : "secondary"}
+                  onClick={() => this.setState({ cone: true })}
+                />
               </ButtonGroup>
             </Column>
           </Row>

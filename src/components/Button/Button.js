@@ -1,31 +1,28 @@
-import React from 'react';
-import classNames from 'classnames';
+import React from "react";
+import classNames from "classnames";
 
-import './Button.css';
+import "./Button.css";
 
-const Button = ({ label, priority, className, size, onClick }) => {
+const Button = ({ label, priority, className, size, type, onClick }) => {
   const classes = classNames(
-    'button',
+    "button",
     {
       [`button--${priority}`]: priority,
-      [`button--size-${size}`]: size,
+      [`button--size-${size}`]: size
     },
-    className,
+    className
   );
 
   return (
-    <button
-      className={classes}
-      onClick={onClick}
-    >
+    <button className={classes} type={type} onClick={onClick}>
       {label}
     </button>
   );
 };
 
 Button.defaultProps = {
-  priority: 'primary',
-  onClick: () => {},
+  priority: "primary",
+  onClick: () => {}
 };
 
 export default Button;

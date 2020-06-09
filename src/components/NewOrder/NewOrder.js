@@ -107,6 +107,7 @@ class NewOrder extends Component {
                         size="small"
                         label="-"
                         priority="primary"
+                        type="button"
                         onClick={() => this.handleDecreaseFlavor(flavor)}
                       />
                       <Button
@@ -118,6 +119,7 @@ class NewOrder extends Component {
                         size="small"
                         label="+"
                         priority="primary"
+                        type="button"
                         onClick={() => this.handleIncreaseFlavor(flavor)}
                       />
                     </ButtonGroup>
